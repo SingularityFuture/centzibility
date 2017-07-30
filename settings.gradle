@@ -1,1 +1,1 @@
-include ':centzwatch'
+include ':centzapp', ':centzwatch'

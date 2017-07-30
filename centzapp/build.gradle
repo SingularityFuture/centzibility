@@ -5,7 +5,7 @@ android {
     buildToolsVersion '25.0.1'
 
     defaultConfig {
-        applicationId "com.example.centzwatch"
+        applicationId "com.example.centzibility"
         minSdkVersion 10
         targetSdkVersion 25
         versionCode 1
@@ -18,7 +18,7 @@ android {
         }
     }
     buildTypes.each {
-        it.buildConfigField 'String', 'OPEN_CENTZ_MAP_API_KEY', Open_Centz_Key
+        it.buildConfigField 'String', 'COINBASE_API_KEY', Coinbase_Key
     }
 
     dataBinding.enabled = true
