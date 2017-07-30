@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.data;
+package com.example.android.centz.data;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.example.android.sunshine.utilities.SunshineDateUtils;
+import com.example.android.centz.utilities.CentzDateUtils;
 
 /**
- * Defines table and column names for the weather database. This class is not necessary, but keeps
+ * Defines table and column names for the centz database. This class is not necessary, but keeps
  * the code organized.
  */
-public class WeatherContract {
+public class CentzContract {
 
     /*
      * The "Content authority" is a name for the entire content provider, similar to the
@@ -32,45 +32,45 @@ public class WeatherContract {
      * content authority is the package name for the app, which is guaranteed to be unique on the
      * Play Store.
      */
-    public static final String CONTENT_AUTHORITY = "com.example.android.sunshine";
+    public static final String CONTENT_AUTHORITY = "com.example.android.centz";
 
     /*
      * Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
-     * the content provider for Sunshine.
+     * the content provider for Centz.
      */
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     /*
-     * Possible paths that can be appended to BASE_CONTENT_URI to form valid URI's that Sunshine
+     * Possible paths that can be appended to BASE_CONTENT_URI to form valid URI's that Centz
      * can handle. For instance,
      *
-     *     content://com.example.android.sunshine/weather/
-     *     [           BASE_CONTENT_URI         ][ PATH_WEATHER ]
+     *     content://com.example.android.centz/centz/
+     *     [           BASE_CONTENT_URI         ][ PATH_CENTZ ]
      *
-     * is a valid path for looking at weather data.
+     * is a valid path for looking at centz data.
      *
-     *      content://com.example.android.sunshine/givemeroot/
+     *      content://com.example.android.centz/givemeroot/
      *
      * will fail, as the ContentProvider hasn't been given any information on what to do with
      * "givemeroot". At least, let's hope not. Don't be that dev, reader. Don't be that dev.
      */
-    public static final String PATH_WEATHER = "weather";
+    public static final String PATH_CENTZ = "centz";
 
-    /* Inner class that defines the table contents of the weather table */
-    public static final class WeatherEntry implements BaseColumns {
+    /* Inner class that defines the table contents of the centz table */
+    public static final class CentzEntry implements BaseColumns {
 
-        /* The base CONTENT_URI used to query the Weather table from the content provider */
+        /* The base CONTENT_URI used to query the Centz table from the content provider */
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
-                .appendPath(PATH_WEATHER)
+                .appendPath(PATH_CENTZ)
                 .build();
 
-        /* Used internally as the name of our weather table. */
-        public static final String TABLE_NAME = "weather";
+        /* Used internally as the name of our centz table. */
+        public static final String TABLE_NAME = "centz";
 
         /*
          * The date column will store the UTC date that correlates to the local date for which
-         * each particular weather row represents. For example, if you live in the Eastern
-         * Standard Time (EST) time zone and you load weather data at 9:00 PM on September 23, 2016,
+         * each particular centz row represents. For example, if you live in the Eastern
+         * Standard Time (EST) time zone and you load centz data at 9:00 PM on September 23, 2016,
          * the UTC time stamp for that particular time would be 1474678800000 in milliseconds.
          * However, due to time zone offsets, it would already be September 24th, 2016 in the GMT
          * time zone when it is 9:00 PM on the 23rd in the EST time zone. In this example, the date
@@ -85,8 +85,8 @@ public class WeatherContract {
          */
         public static final String COLUMN_DATE = "date";
 
-        /* Weather ID as returned by API, used to identify the icon to be used */
-        public static final String COLUMN_WEATHER_ID = "weather_id";
+        /* Centz ID as returned by API, used to identify the icon to be used */
+        public static final String COLUMN_CENTZ_ID = "centz_id";
 
         /* Min and max temperatures in °C for the day (stored as floats in the database) */
         public static final String COLUMN_MIN_TEMP = "min";
@@ -105,34 +105,34 @@ public class WeatherContract {
          * Degrees are meteorological degrees (e.g, 0 is north, 180 is south).
          * Stored as floats in the database.
          *
-         * Note: These degrees are not to be confused with temperature degrees of the weather.
+         * Note: These degrees are not to be confused with temperature degrees of the centz.
          */
         public static final String COLUMN_DEGREES = "degrees";
 
         /**
-         * Builds a URI that adds the weather date to the end of the forecast content URI path.
-         * This is used to query details about a single weather entry by date. This is what we
+         * Builds a URI that adds the centz date to the end of the forecast content URI path.
+         * This is used to query details about a single centz entry by date. This is what we
          * use for the detail view query. We assume a normalized date is passed to this method.
          *
          * @param date Normalized date in milliseconds
-         * @return Uri to query details about a single weather entry
+         * @return Uri to query details about a single centz entry
          */
-        public static Uri buildWeatherUriWithDate(long date) {
+        public static Uri buildCentzUriWithDate(long date) {
             return CONTENT_URI.buildUpon()
                     .appendPath(Long.toString(date))
                     .build();
         }
 
         /**
-         * Returns just the selection part of the weather query from a normalized today value.
-         * This is used to get a weather forecast from today's date. To make this easy to use
+         * Returns just the selection part of the centz query from a normalized today value.
+         * This is used to get a centz forecast from today's date. To make this easy to use
          * in compound selection, we embed today's date as an argument in the query.
          *
-         * @return The selection part of the weather query for today onwards
+         * @return The selection part of the centz query for today onwards
          */
         public static String getSqlSelectForTodayOnwards() {
-            long normalizedUtcNow = SunshineDateUtils.normalizeDate(System.currentTimeMillis());
-            return WeatherContract.WeatherEntry.COLUMN_DATE + " >= " + normalizedUtcNow;
+            long normalizedUtcNow = CentzDateUtils.normalizeDate(System.currentTimeMillis());
+            return CentzContract.CentzEntry.COLUMN_DATE + " >= " + normalizedUtcNow;
         }
     }
 }

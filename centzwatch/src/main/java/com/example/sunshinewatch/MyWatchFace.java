@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.sunshinewatch;
+package com.example.centzwatch;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -74,10 +74,10 @@ public class MyWatchFace extends CanvasWatchFaceService {
     private static final int MSG_UPDATE_TIME = 0;
     private static final String TAG = "Watch Face Canvas";
     private static final int REQUEST_RESOLVE_ERROR = 1000;
-    private static final String MAX_TEMP = "com.example.android.sunshine.key.max_temp";
-    private static final String MIN_TEMP = "com.example.android.sunshine.key.min_temp";
-    private static final String WEATHER_ID = "com.example.android.sunshine.key.weather_id";
-    private static final String INSTALLED = "com.example.android.sunshine.key.installed";
+    private static final String MAX_TEMP = "com.example.android.centz.key.max_temp";
+    private static final String MIN_TEMP = "com.example.android.centz.key.min_temp";
+    private static final String CENTZ_ID = "com.example.android.centz.key.centz_id";
+    private static final String INSTALLED = "com.example.android.centz.key.installed";
 
     @Override
     public Engine onCreateEngine() {
@@ -138,15 +138,15 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private boolean mResolvingError;
         private int max_temp;
         private int min_temp;
-        private int weather_id;
-        private int weather_icon= R.drawable.ic_clear; // Set default to clear.
+        private int centz_id;
+        private int centz_icon= R.drawable.ic_clear; // Set default to clear.
 
         @Override
         public void onConnected(@Nullable Bundle bundle) {
             mResolvingError = false;
             Wearable.DataApi.addListener(mGoogleApiClient, this);
 
-            PutDataMapRequest putDataMapReq = PutDataMapRequest.create("/sunshine_installed");
+            PutDataMapRequest putDataMapReq = PutDataMapRequest.create("/centz_installed");
             putDataMapReq.getDataMap().putInt(INSTALLED, new Random().nextInt());
             PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
             putDataReq.setUrgent();
@@ -174,12 +174,12 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 if (event.getType() == DataEvent.TYPE_CHANGED) {
                     // DataItem changed
                     DataItem item = event.getDataItem();
-                    if (item.getUri().getPath().compareTo("/weather_info") == 0) {
+                    if (item.getUri().getPath().compareTo("/centz_info") == 0) {
                         DataMap dataMap = DataMapItem.fromDataItem(item).getDataMap();
                         max_temp = dataMap.getInt(MAX_TEMP);
                         min_temp = dataMap.getInt(MIN_TEMP);
-                        weather_id = dataMap.getInt(WEATHER_ID);
-                        weather_icon = getSmallArtResourceIdForWeatherCondition(weather_id);
+                        centz_id = dataMap.getInt(CENTZ_ID);
+                        centz_icon = getSmallArtResourceIdForCentzCondition(centz_id);
                         invalidate();
                     }
                 } else if (event.getType() == DataEvent.TYPE_DELETED) {
@@ -287,7 +287,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 String date = sdf.format(d);
                 canvas.drawText(date,bounds.centerX() - mTextXOffsetDate,
                         bounds.centerY() - mTextYOffset*4,mTextPaintDate);
-                Drawable drawable = MyWatchFace.this.getResources().getDrawable(weather_icon,getTheme());
+                Drawable drawable = MyWatchFace.this.getResources().getDrawable(centz_icon,getTheme());
                 drawable.setBounds(bounds.centerX()-25, bounds.centerY()+55,bounds.centerX()+25 , bounds.centerY()+105);
                 drawable.draw(canvas);
 
@@ -310,44 +310,44 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
     }
 
-    public static int getSmallArtResourceIdForWeatherCondition(int weatherId) {
+    public static int getSmallArtResourceIdForCentzCondition(int centzId) {
 
         /*
-         * Based on weather code data for Open Weather Map.
+         * Based on centz code data for Open Centz Map.
          */
-        if (weatherId >= 200 && weatherId <= 232) {
-            return com.example.sunshinewatch.R.drawable.ic_storm;
-        } else if (weatherId >= 300 && weatherId <= 321) {
-            return com.example.sunshinewatch.R.drawable.ic_light_rain;
-        } else if (weatherId >= 500 && weatherId <= 504) {
-            int temp=com.example.sunshinewatch.R.drawable.ic_rain;
-            return com.example.sunshinewatch.R.drawable.ic_rain;
-        } else if (weatherId == 511) {
-            return com.example.sunshinewatch.R.drawable.ic_snow;
-        } else if (weatherId >= 520 && weatherId <= 531) {
-            return com.example.sunshinewatch.R.drawable.ic_rain;
-        } else if (weatherId >= 600 && weatherId <= 622) {
-            return com.example.sunshinewatch.R.drawable.ic_snow;
-        } else if (weatherId >= 701 && weatherId <= 761) {
-            return com.example.sunshinewatch.R.drawable.ic_fog;
-        } else if (weatherId == 761 || weatherId == 771 || weatherId == 781) {
-            return com.example.sunshinewatch.R.drawable.ic_storm;
-        } else if (weatherId == 800) {
-            return com.example.sunshinewatch.R.drawable.ic_clear;
-        } else if (weatherId == 801) {
-            return com.example.sunshinewatch.R.drawable.ic_light_clouds;
-        } else if (weatherId >= 802 && weatherId <= 804) {
-            return com.example.sunshinewatch.R.drawable.ic_cloudy;
-        } else if (weatherId >= 900 && weatherId <= 906) {
-            return com.example.sunshinewatch.R.drawable.ic_storm;
-        } else if (weatherId >= 958 && weatherId <= 962) {
-            return com.example.sunshinewatch.R.drawable.ic_storm;
-        } else if (weatherId >= 951 && weatherId <= 957) {
-            return com.example.sunshinewatch.R.drawable.ic_clear;
+        if (centzId >= 200 && centzId <= 232) {
+            return com.example.centzwatch.R.drawable.ic_storm;
+        } else if (centzId >= 300 && centzId <= 321) {
+            return com.example.centzwatch.R.drawable.ic_light_rain;
+        } else if (centzId >= 500 && centzId <= 504) {
+            int temp=com.example.centzwatch.R.drawable.ic_rain;
+            return com.example.centzwatch.R.drawable.ic_rain;
+        } else if (centzId == 511) {
+            return com.example.centzwatch.R.drawable.ic_snow;
+        } else if (centzId >= 520 && centzId <= 531) {
+            return com.example.centzwatch.R.drawable.ic_rain;
+        } else if (centzId >= 600 && centzId <= 622) {
+            return com.example.centzwatch.R.drawable.ic_snow;
+        } else if (centzId >= 701 && centzId <= 761) {
+            return com.example.centzwatch.R.drawable.ic_fog;
+        } else if (centzId == 761 || centzId == 771 || centzId == 781) {
+            return com.example.centzwatch.R.drawable.ic_storm;
+        } else if (centzId == 800) {
+            return com.example.centzwatch.R.drawable.ic_clear;
+        } else if (centzId == 801) {
+            return com.example.centzwatch.R.drawable.ic_light_clouds;
+        } else if (centzId >= 802 && centzId <= 804) {
+            return com.example.centzwatch.R.drawable.ic_cloudy;
+        } else if (centzId >= 900 && centzId <= 906) {
+            return com.example.centzwatch.R.drawable.ic_storm;
+        } else if (centzId >= 958 && centzId <= 962) {
+            return com.example.centzwatch.R.drawable.ic_storm;
+        } else if (centzId >= 951 && centzId <= 957) {
+            return com.example.centzwatch.R.drawable.ic_clear;
         }
         else {
-            Log.e(TAG, "Unknown Weather: " + weatherId);
-            return com.example.sunshinewatch.R.drawable.ic_storm;
+            Log.e(TAG, "Unknown Centz: " + centzId);
+            return com.example.centzwatch.R.drawable.ic_storm;
         }
     }
 }

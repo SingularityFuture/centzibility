@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.sync;
+package com.example.android.centz.sync;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -22,14 +22,14 @@ import android.content.Intent;
  * An {@link IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
  */
-public class SunshineSyncIntentService extends IntentService {
+public class CentzSyncIntentService extends IntentService {
 
-    public SunshineSyncIntentService() {
-        super("SunshineSyncIntentService");
+    public CentzSyncIntentService() {
+        super("CentzSyncIntentService");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        SunshineSyncTask.syncWeather(this);
+        CentzSyncTask.syncCentz(this);
     }
 }

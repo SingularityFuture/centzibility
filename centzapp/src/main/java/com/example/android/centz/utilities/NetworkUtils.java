@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.utilities;
+package com.example.android.centz.utilities;
 
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import com.example.android.sunshine.BuildConfig;
-import com.example.android.sunshine.data.SunshinePreferences;
+import com.example.android.centz.BuildConfig;
+import com.example.android.centz.data.CentzPreferences;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,39 +30,39 @@ import java.net.URL;
 import java.util.Scanner;
 
 /**
- * These utilities will be used to communicate with the weather servers.
+ * These utilities will be used to communicate with the centz servers.
  */
 public final class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
     /*
-     * Sunshine was originally built to use OpenWeatherMap's API. However, we wanted to provide
-     * a way to much more easily test the app and provide more varied weather data. After all, in
+     * Centz was originally built to use OpenCentzMap's API. However, we wanted to provide
+     * a way to much more easily test the app and provide more varied centz data. After all, in
      * Mountain View (Google's HQ), it gets very boring looking at a forecast of perfectly clear
      * skies at 75°F every day... (UGH!) The solution we came up with was to host our own fake
-     * weather server. With this server, there are two URL's you can use. The first (and default)
-     * URL will return dynamic weather data. Each time the app refreshes, you will get different,
-     * completely random weather data. This is incredibly useful for testing the robustness of your
-     * application, as different weather JSON will provide edge cases for some of your methods.
+     * centz server. With this server, there are two URL's you can use. The first (and default)
+     * URL will return dynamic centz data. Each time the app refreshes, you will get different,
+     * completely random centz data. This is incredibly useful for testing the robustness of your
+     * application, as different centz JSON will provide edge cases for some of your methods.
      *
-     * If you'd prefer to test with the weather data that you will see in the videos on Udacity,
-     * you can do so by setting the FORECAST_BASE_URL to STATIC_WEATHER_URL below.
+     * If you'd prefer to test with the centz data that you will see in the videos on Udacity,
+     * you can do so by setting the FORECAST_BASE_URL to STATIC_CENTZ_URL below.
      */
-    private static final String DYNAMIC_WEATHER_URL =
-            "http://api.openweathermap.org/data/2.5/forecast/daily";
-            //"https://andfun-weather.udacity.com/weather";
+    private static final String DYNAMIC_CENTZ_URL =
+            "http://api.opencentzmap.org/data/2.5/forecast/daily";
+            //"https://andfun-centz.udacity.com/centz";
 
-    private static final String STATIC_WEATHER_URL =
-            "http://api.openweathermap.org/data/2.5/forecast/daily";
-            //"https://andfun-weather.udacity.com/staticweather";
+    private static final String STATIC_CENTZ_URL =
+            "http://api.opencentzmap.org/data/2.5/forecast/daily";
+            //"https://andfun-centz.udacity.com/staticcentz";
 
-    private static final String FORECAST_BASE_URL = DYNAMIC_WEATHER_URL;
+    private static final String FORECAST_BASE_URL = DYNAMIC_CENTZ_URL;
 
     /*
-     * NOTE: These values only effect responses from OpenWeatherMap, NOT from the fake weather
+     * NOTE: These values only effect responses from OpenCentzMap, NOT from the fake centz
      * server. They are simply here to allow us to teach you how to build a URL if you were to use
-     * a real API.If you want to connect your app to OpenWeatherMap's API, feel free to! However,
+     * a real API.If you want to connect your app to OpenCentzMap's API, feel free to! However,
      * we are not going to show you how to do so in this course.
      */
 
@@ -83,58 +83,58 @@ public final class NetworkUtils {
     private static final String FORMAT_PARAM = "mode";
     /* The units parameter allows us to designate whether we want metric units or imperial units */
     private static final String UNITS_PARAM = "units";
-    /* The days parameter allows us to designate how many days of weather data we want */
+    /* The days parameter allows us to designate how many days of centz data we want */
     private static final String DAYS_PARAM = "cnt";
     private static final String APPID ="appid";
 
     /**
-     * Retrieves the proper URL to query for the weather data. The reason for both this method as
+     * Retrieves the proper URL to query for the centz data. The reason for both this method as
      * well as {@link #buildUrlWithLocationQuery(String)} is two fold.
      * <p>
      * 1) You should be able to just use one method when you need to create the URL within the
      * app instead of calling both methods.
-     * 2) Later in Sunshine, you are going to add an alternate method of allowing the user
+     * 2) Later in Centz, you are going to add an alternate method of allowing the user
      * to select their preferred location. Once you do so, there will be another way to form
      * the URL using a latitude and longitude rather than just a location String. This method
      * will "decide" which URL to build and return it.
      *
      * @param context used to access other Utility methods
-     * @return URL to query weather service
+     * @return URL to query centz service
      */
     public static URL getUrl(Context context) {
-        if (SunshinePreferences.isLocationLatLonAvailable(context)) {
-            double[] preferredCoordinates = SunshinePreferences.getLocationCoordinates(context);
+        if (CentzPreferences.isLocationLatLonAvailable(context)) {
+            double[] preferredCoordinates = CentzPreferences.getLocationCoordinates(context);
             double latitude = preferredCoordinates[0];
             double longitude = preferredCoordinates[1];
             return buildUrlWithLatitudeLongitude(latitude, longitude);
         } else {
-            String locationQuery = SunshinePreferences.getPreferredWeatherLocation(context);
+            String locationQuery = CentzPreferences.getPreferredCentzLocation(context);
             return buildUrlWithLocationQuery(locationQuery);
         }
     }
 
     /**
-     * Builds the URL used to talk to the weather server using latitude and longitude of a
+     * Builds the URL used to talk to the centz server using latitude and longitude of a
      * location.
      *
      * @param latitude  The latitude of the location
      * @param longitude The longitude of the location
-     * @return The Url to use to query the weather server.
+     * @return The Url to use to query the centz server.
      */
     private static URL buildUrlWithLatitudeLongitude(Double latitude, Double longitude) {
-        Uri weatherQueryUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
+        Uri centzQueryUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                 .appendQueryParameter(LAT_PARAM, String.valueOf(latitude))
                 .appendQueryParameter(LON_PARAM, String.valueOf(longitude))
                 .appendQueryParameter(FORMAT_PARAM, format)
                 .appendQueryParameter(UNITS_PARAM, units)
                 .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
-                .appendQueryParameter(APPID, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
+                .appendQueryParameter(APPID, BuildConfig.OPEN_CENTZ_MAP_API_KEY)
                 .build();
 
         try {
-            URL weatherQueryUrl = new URL(weatherQueryUri.toString());
-            Log.v(TAG, "URL: " + weatherQueryUrl);
-            return weatherQueryUrl;
+            URL centzQueryUrl = new URL(centzQueryUri.toString());
+            Log.v(TAG, "URL: " + centzQueryUrl);
+            return centzQueryUrl;
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;
@@ -142,25 +142,25 @@ public final class NetworkUtils {
     }
 
     /**
-     * Builds the URL used to talk to the weather server using a location. This location is based
-     * on the query capabilities of the weather provider that we are using.
+     * Builds the URL used to talk to the centz server using a location. This location is based
+     * on the query capabilities of the centz provider that we are using.
      *
      * @param locationQuery The location that will be queried for.
-     * @return The URL to use to query the weather server.
+     * @return The URL to use to query the centz server.
      */
     private static URL buildUrlWithLocationQuery(String locationQuery) {
-        Uri weatherQueryUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
+        Uri centzQueryUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                 .appendQueryParameter(QUERY_PARAM, locationQuery)
                 .appendQueryParameter(FORMAT_PARAM, format)
                 .appendQueryParameter(UNITS_PARAM, units)
                 .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
-                .appendQueryParameter(APPID, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
+                .appendQueryParameter(APPID, BuildConfig.OPEN_CENTZ_MAP_API_KEY)
                 .build();
 
         try {
-            URL weatherQueryUrl = new URL(weatherQueryUri.toString());
-            Log.v(TAG, "URL: " + weatherQueryUrl);
-            return weatherQueryUrl;
+            URL centzQueryUrl = new URL(centzQueryUri.toString());
+            Log.v(TAG, "URL: " + centzQueryUrl);
+            return centzQueryUrl;
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;

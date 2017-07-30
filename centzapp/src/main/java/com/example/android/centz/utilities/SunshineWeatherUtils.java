@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.utilities;
+package com.example.android.centz.utilities;
 
 import android.content.Context;
 import android.util.Log;
 
-import com.example.android.sunshine.R;
-import com.example.android.sunshine.data.SunshinePreferences;
+import com.example.android.centz.R;
+import com.example.android.centz.data.CentzPreferences;
 
 /**
- * Contains useful utilities for a weather app, such as conversion between Celsius and Fahrenheit,
- * from kph to mph, and from degrees to NSEW.  It also contains the mapping of weather condition
- * codes in OpenWeatherMap to strings.  These strings are contained
+ * Contains useful utilities for a centz app, such as conversion between Celsius and Fahrenheit,
+ * from kph to mph, and from degrees to NSEW.  It also contains the mapping of centz condition
+ * codes in OpenCentzMap to strings.  These strings are contained
  */
-public final class SunshineWeatherUtils {
+public final class CentzCentzUtils {
 
-    private static final String LOG_TAG = SunshineWeatherUtils.class.getSimpleName();
+    private static final String LOG_TAG = CentzCentzUtils.class.getSimpleName();
 
     /**
      * This method will convert a temperature from Celsius to Fahrenheit.
@@ -55,7 +55,7 @@ public final class SunshineWeatherUtils {
      * "21°"
      */
     public static String formatTemperature(Context context, double temperature) {
-        if (!SunshinePreferences.isMetric(context)) {
+        if (!CentzPreferences.isMetric(context)) {
             temperature = celsiusToFahrenheit(temperature);
         }
 
@@ -100,7 +100,7 @@ public final class SunshineWeatherUtils {
     public static String getFormattedWind(Context context, float windSpeed, float degrees) {
         int windFormat = R.string.format_wind_kmh;
 
-        if (!SunshinePreferences.isMetric(context)) {
+        if (!CentzPreferences.isMetric(context)) {
             windFormat = R.string.format_wind_mph;
             windSpeed = .621371192237334f * windSpeed;
         }
@@ -132,22 +132,22 @@ public final class SunshineWeatherUtils {
     }
 
     /**
-     * Helper method to provide the string according to the weather
-     * condition id returned by the OpenWeatherMap call.
+     * Helper method to provide the string according to the centz
+     * condition id returned by the OpenCentzMap call.
      *
      * @param context   Android context
-     * @param weatherId from OpenWeatherMap API response
-     *                  See http://openweathermap.org/weather-conditions for a list of all IDs
+     * @param centzId from OpenCentzMap API response
+     *                  See http://opencentzmap.org/centz-conditions for a list of all IDs
      *
-     * @return String for the weather condition, null if no relation is found.
+     * @return String for the centz condition, null if no relation is found.
      */
-    public static String getStringForWeatherCondition(Context context, int weatherId) {
+    public static String getStringForCentzCondition(Context context, int centzId) {
         int stringId;
-        if (weatherId >= 200 && weatherId <= 232) {
+        if (centzId >= 200 && centzId <= 232) {
             stringId = R.string.condition_2xx;
-        } else if (weatherId >= 300 && weatherId <= 321) {
+        } else if (centzId >= 300 && centzId <= 321) {
             stringId = R.string.condition_3xx;
-        } else switch (weatherId) {
+        } else switch (centzId) {
             case 500:
                 stringId = R.string.condition_500;
                 break;
@@ -305,115 +305,115 @@ public final class SunshineWeatherUtils {
                 stringId = R.string.condition_962;
                 break;
             default:
-                return context.getString(R.string.condition_unknown, weatherId);
+                return context.getString(R.string.condition_unknown, centzId);
         }
 
         return context.getString(stringId);
     }
 
     /**
-     * Helper method to provide the icon resource id according to the weather condition id returned
-     * by the OpenWeatherMap call. This method is very similar to
+     * Helper method to provide the icon resource id according to the centz condition id returned
+     * by the OpenCentzMap call. This method is very similar to
      *
-     *   {@link #getLargeArtResourceIdForWeatherCondition(int)}.
+     *   {@link #getLargeArtResourceIdForCentzCondition(int)}.
      *
      * The difference between these two methods is that this method provides smaller assets, used
      * in the list item layout for a "future day", as well as
      *
-     * @param weatherId from OpenWeatherMap API response
-     *                  See http://openweathermap.org/weather-conditions for a list of all IDs
+     * @param centzId from OpenCentzMap API response
+     *                  See http://opencentzmap.org/centz-conditions for a list of all IDs
      *
      * @return resource id for the corresponding icon. -1 if no relation is found.
      */
-    public static int getSmallArtResourceIdForWeatherCondition(int weatherId) {
+    public static int getSmallArtResourceIdForCentzCondition(int centzId) {
 
         /*
-         * Based on weather code data for Open Weather Map.
+         * Based on centz code data for Open Centz Map.
          */
-        if (weatherId >= 200 && weatherId <= 232) {
+        if (centzId >= 200 && centzId <= 232) {
             return R.drawable.ic_storm;
-        } else if (weatherId >= 300 && weatherId <= 321) {
+        } else if (centzId >= 300 && centzId <= 321) {
             return R.drawable.ic_light_rain;
-        } else if (weatherId >= 500 && weatherId <= 504) {
+        } else if (centzId >= 500 && centzId <= 504) {
             return R.drawable.ic_rain;
-        } else if (weatherId == 511) {
+        } else if (centzId == 511) {
             return R.drawable.ic_snow;
-        } else if (weatherId >= 520 && weatherId <= 531) {
+        } else if (centzId >= 520 && centzId <= 531) {
             return R.drawable.ic_rain;
-        } else if (weatherId >= 600 && weatherId <= 622) {
+        } else if (centzId >= 600 && centzId <= 622) {
             return R.drawable.ic_snow;
-        } else if (weatherId >= 701 && weatherId <= 761) {
+        } else if (centzId >= 701 && centzId <= 761) {
             return R.drawable.ic_fog;
-        } else if (weatherId == 761 || weatherId == 771 || weatherId == 781) {
+        } else if (centzId == 761 || centzId == 771 || centzId == 781) {
             return R.drawable.ic_storm;
-        } else if (weatherId == 800) {
+        } else if (centzId == 800) {
             return R.drawable.ic_clear;
-        } else if (weatherId == 801) {
+        } else if (centzId == 801) {
             return R.drawable.ic_light_clouds;
-        } else if (weatherId >= 802 && weatherId <= 804) {
+        } else if (centzId >= 802 && centzId <= 804) {
             return R.drawable.ic_cloudy;
-        } else if (weatherId >= 900 && weatherId <= 906) {
+        } else if (centzId >= 900 && centzId <= 906) {
             return R.drawable.ic_storm;
-        } else if (weatherId >= 958 && weatherId <= 962) {
+        } else if (centzId >= 958 && centzId <= 962) {
             return R.drawable.ic_storm;
-        } else if (weatherId >= 951 && weatherId <= 957) {
+        } else if (centzId >= 951 && centzId <= 957) {
             return R.drawable.ic_clear;
         }
 
-        Log.e(LOG_TAG, "Unknown Weather: " + weatherId);
+        Log.e(LOG_TAG, "Unknown Centz: " + centzId);
         return R.drawable.ic_storm;
     }
 
     /**
-     * Helper method to provide the art resource ID according to the weather condition ID returned
-     * by the OpenWeatherMap call. This method is very similar to
+     * Helper method to provide the art resource ID according to the centz condition ID returned
+     * by the OpenCentzMap call. This method is very similar to
      *
-     *   {@link #getSmallArtResourceIdForWeatherCondition(int)}.
+     *   {@link #getSmallArtResourceIdForCentzCondition(int)}.
      *
      * The difference between these two methods is that this method provides larger assets, used
      * in the "today view" of the list, as well as in the DetailActivity.
      *
-     * @param weatherId from OpenWeatherMap API response
-     *                  See http://openweathermap.org/weather-conditions for a list of all IDs
+     * @param centzId from OpenCentzMap API response
+     *                  See http://opencentzmap.org/centz-conditions for a list of all IDs
      *
      * @return resource ID for the corresponding icon. -1 if no relation is found.
      */
-    public static int getLargeArtResourceIdForWeatherCondition(int weatherId) {
+    public static int getLargeArtResourceIdForCentzCondition(int centzId) {
 
         /*
-         * Based on weather code data for Open Weather Map.
+         * Based on centz code data for Open Centz Map.
          */
-        if (weatherId >= 200 && weatherId <= 232) {
+        if (centzId >= 200 && centzId <= 232) {
             return R.drawable.art_storm;
-        } else if (weatherId >= 300 && weatherId <= 321) {
+        } else if (centzId >= 300 && centzId <= 321) {
             return R.drawable.art_light_rain;
-        } else if (weatherId >= 500 && weatherId <= 504) {
+        } else if (centzId >= 500 && centzId <= 504) {
             return R.drawable.art_rain;
-        } else if (weatherId == 511) {
+        } else if (centzId == 511) {
             return R.drawable.art_snow;
-        } else if (weatherId >= 520 && weatherId <= 531) {
+        } else if (centzId >= 520 && centzId <= 531) {
             return R.drawable.art_rain;
-        } else if (weatherId >= 600 && weatherId <= 622) {
+        } else if (centzId >= 600 && centzId <= 622) {
             return R.drawable.art_snow;
-        } else if (weatherId >= 701 && weatherId <= 761) {
+        } else if (centzId >= 701 && centzId <= 761) {
             return R.drawable.art_fog;
-        } else if (weatherId == 761 || weatherId == 771 || weatherId == 781) {
+        } else if (centzId == 761 || centzId == 771 || centzId == 781) {
             return R.drawable.art_storm;
-        } else if (weatherId == 800) {
+        } else if (centzId == 800) {
             return R.drawable.art_clear;
-        } else if (weatherId == 801) {
+        } else if (centzId == 801) {
             return R.drawable.art_light_clouds;
-        } else if (weatherId >= 802 && weatherId <= 804) {
+        } else if (centzId >= 802 && centzId <= 804) {
             return R.drawable.art_clouds;
-        } else if (weatherId >= 900 && weatherId <= 906) {
+        } else if (centzId >= 900 && centzId <= 906) {
             return R.drawable.art_storm;
-        } else if (weatherId >= 958 && weatherId <= 962) {
+        } else if (centzId >= 958 && centzId <= 962) {
             return R.drawable.art_storm;
-        } else if (weatherId >= 951 && weatherId <= 957) {
+        } else if (centzId >= 951 && centzId <= 957) {
             return R.drawable.art_clear;
         }
 
-        Log.e(LOG_TAG, "Unknown Weather: " + weatherId);
+        Log.e(LOG_TAG, "Unknown Centz: " + centzId);
         return R.drawable.art_storm;
     }
 }

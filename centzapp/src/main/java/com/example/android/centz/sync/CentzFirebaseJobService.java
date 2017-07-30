@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.sync;
+package com.example.android.centz.sync;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -24,9 +24,9 @@ import com.firebase.jobdispatcher.JobService;
 import com.firebase.jobdispatcher.RetryStrategy;
 
 
-public class SunshineFirebaseJobService extends JobService {
+public class CentzFirebaseJobService extends JobService {
 
-    private AsyncTask<Void, Void, Void> mFetchWeatherTask;
+    private AsyncTask<Void, Void, Void> mFetchCentzTask;
 
     /**
      * The entry point to your Job. Implementations should offload work to another thread of
@@ -41,11 +41,11 @@ public class SunshineFirebaseJobService extends JobService {
     @Override
     public boolean onStartJob(final JobParameters jobParameters) {
 
-        mFetchWeatherTask = new AsyncTask<Void, Void, Void>(){
+        mFetchCentzTask = new AsyncTask<Void, Void, Void>(){
             @Override
             protected Void doInBackground(Void... voids) {
                 Context context = getApplicationContext();
-                SunshineSyncTask.syncWeather(context);
+                CentzSyncTask.syncCentz(context);
                 jobFinished(jobParameters, false);
                 return null;
             }
@@ -56,7 +56,7 @@ public class SunshineFirebaseJobService extends JobService {
             }
         };
 
-        mFetchWeatherTask.execute();
+        mFetchCentzTask.execute();
         return true;
     }
 
@@ -70,8 +70,8 @@ public class SunshineFirebaseJobService extends JobService {
      */
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
-        if (mFetchWeatherTask != null) {
-            mFetchWeatherTask.cancel(true);
+        if (mFetchCentzTask != null) {
+            mFetchCentzTask.cancel(true);
         }
         return true;
     }

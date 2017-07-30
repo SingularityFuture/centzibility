@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine;
+package com.example.android.centz;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -24,17 +24,17 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
 
-import com.example.android.sunshine.data.SunshinePreferences;
-import com.example.android.sunshine.data.WeatherContract;
-import com.example.android.sunshine.sync.SunshineSyncUtils;
+import com.example.android.centz.data.CentzPreferences;
+import com.example.android.centz.data.CentzContract;
+import com.example.android.centz.sync.CentzSyncUtils;
 
 /**
- * The SettingsFragment serves as the display for all of the user's settings. In Sunshine, the
+ * The SettingsFragment serves as the display for all of the user's settings. In Centz, the
  * user will be able to change their preference for units of measurement from metric to imperial,
- * set their preferred weather location, and indicate whether or not they'd like to see
+ * set their preferred centz location, and indicate whether or not they'd like to see
  * notifications.
  *
- * Please note: If you are using our dummy weather services, the location returned will always be
+ * Please note: If you are using our dummy centz services, the location returned will always be
  * Mountain View, California.
  */
 public class SettingsFragment extends PreferenceFragmentCompat implements
@@ -97,12 +97,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         if (key.equals(getString(R.string.pref_location_key))) {
             // we've changed the location
             // Wipe out any potential PlacePicker latlng values so that we can use this text entry.
-            SunshinePreferences.resetLocationCoordinates(activity);
-            SunshineSyncUtils.startImmediateSync(activity);
+            CentzPreferences.resetLocationCoordinates(activity);
+            CentzSyncUtils.startImmediateSync(activity);
         } else if (key.equals(getString(R.string.pref_units_key))) {
-            // units have changed. update lists of weather entries accordingly
-            activity.getContentResolver().notifyChange(WeatherContract.WeatherEntry.CONTENT_URI, null);
-            SunshineSyncUtils.startImmediateSync(activity);
+            // units have changed. update lists of centz entries accordingly
+            activity.getContentResolver().notifyChange(CentzContract.CentzEntry.CONTENT_URI, null);
+            CentzSyncUtils.startImmediateSync(activity);
         }
         Preference preference = findPreference(key);
         if (null != preference) {

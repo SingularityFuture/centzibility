@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.data;
+package com.example.android.centz.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.example.android.sunshine.R;
+import com.example.android.centz.R;
 
-public final class SunshinePreferences {
+public final class CentzPreferences {
 
     /*
      * In order to uniquely pinpoint the location on the map when we launch the map intent, we
      * store the latitude and longitude. We will also use the latitude and longitude to create
-     * queries for the weather.
+     * queries for the centz.
      */
     public static final String PREF_COORD_LAT = "coord_lat";
     public static final String PREF_COORD_LONG = "coord_long";
@@ -73,7 +73,7 @@ public final class SunshinePreferences {
      * @return Location The current user has set in SharedPreferences. Will default to
      * "94043,USA" if SharedPreferences have not been implemented yet.
      */
-    public static String getPreferredWeatherLocation(Context context) {
+    public static String getPreferredCentzLocation(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 
         String keyForLocation = context.getString(R.string.pref_location_key);
@@ -156,7 +156,7 @@ public final class SunshinePreferences {
     }
 
     /**
-     * Returns true if the user prefers to see notifications from Sunshine, false otherwise. This
+     * Returns true if the user prefers to see notifications from Centz, false otherwise. This
      * preference can be changed by the user within the SettingsFragment.
      *
      * @param context Used to access SharedPreferences
@@ -167,7 +167,7 @@ public final class SunshinePreferences {
         String displayNotificationsKey = context.getString(R.string.pref_enable_notifications_key);
 
         /*
-         * In Sunshine, the user has the ability to say whether she would like notifications
+         * In Centz, the user has the ability to say whether she would like notifications
          * enabled or not. If no preference has been chosen, we want to be able to determine
          * whether or not to show them. To do this, we reference a bool stored in bools.xml.
          */
@@ -192,7 +192,7 @@ public final class SunshinePreferences {
      * @return UNIX time of when the last notification was shown
      */
     public static long getLastNotificationTimeInMillis(Context context) {
-        /* Key for accessing the time at which Sunshine last displayed a notification */
+        /* Key for accessing the time at which Centz last displayed a notification */
         String lastNotificationKey = context.getString(R.string.pref_last_notification);
 
         /* As usual, we use the default SharedPreferences to access the user's preferences */
@@ -215,7 +215,7 @@ public final class SunshinePreferences {
 
     /**
      * Returns the elapsed time in milliseconds since the last notification was shown. This is used
-     * as part of our check to see if we should show another notification when the weather is
+     * as part of our check to see if we should show another notification when the centz is
      * updated.
      *
      * @param context Used to access SharedPreferences as well as use other utility methods
@@ -223,7 +223,7 @@ public final class SunshinePreferences {
      */
     public static long getEllapsedTimeSinceLastNotification(Context context) {
         long lastNotificationTimeMillis =
-                SunshinePreferences.getLastNotificationTimeInMillis(context);
+                CentzPreferences.getLastNotificationTimeInMillis(context);
         long timeSinceLastNotification = System.currentTimeMillis() - lastNotificationTimeMillis;
         return timeSinceLastNotification;
     }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine;
+package com.example.android.centz;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -25,11 +25,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.android.sunshine.utilities.SunshineDateUtils;
-import com.example.android.sunshine.utilities.SunshineWeatherUtils;
+import com.example.android.centz.utilities.CentzDateUtils;
+import com.example.android.centz.utilities.CentzCentzUtils;
 
 /**
- * {@link ForecastAdapter} exposes a list of weather forecasts
+ * {@link ForecastAdapter} exposes a list of centz forecasts
  * from a {@link android.database.Cursor} to a {@link android.support.v7.widget.RecyclerView}.
  */
 class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapterViewHolder> {
@@ -119,7 +119,7 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
 
     /**
      * OnBindViewHolder is called by the RecyclerView to display the data at the specified
-     * position. In this method, we update the contents of the ViewHolder to display the weather
+     * position. In this method, we update the contents of the ViewHolder to display the centz
      * details for this particular position, using the "position" argument that is conveniently
      * passed into us.
      *
@@ -132,47 +132,47 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
         mCursor.moveToPosition(position);
 
         /****************
-         * Weather Icon *
+         * Centz Icon *
          ****************/
-        int weatherId = mCursor.getInt(MainActivity.INDEX_WEATHER_CONDITION_ID);
-        int weatherImageId;
+        int centzId = mCursor.getInt(MainActivity.INDEX_CENTZ_CONDITION_ID);
+        int centzImageId;
 
         int viewType = getItemViewType(position);
 
         switch (viewType) {
 
             case VIEW_TYPE_TODAY:
-                weatherImageId = SunshineWeatherUtils
-                        .getLargeArtResourceIdForWeatherCondition(weatherId);
+                centzImageId = CentzCentzUtils
+                        .getLargeArtResourceIdForCentzCondition(centzId);
                 break;
 
             case VIEW_TYPE_FUTURE_DAY:
-                weatherImageId = SunshineWeatherUtils
-                        .getSmallArtResourceIdForWeatherCondition(weatherId);
+                centzImageId = CentzCentzUtils
+                        .getSmallArtResourceIdForCentzCondition(centzId);
                 break;
 
             default:
                 throw new IllegalArgumentException("Invalid view type, value of " + viewType);
         }
 
-        forecastAdapterViewHolder.iconView.setImageResource(weatherImageId);
+        forecastAdapterViewHolder.iconView.setImageResource(centzImageId);
 
         /****************
-         * Weather Date *
+         * Centz Date *
          ****************/
          /* Read date from the cursor */
-        long dateInMillis = mCursor.getLong(MainActivity.INDEX_WEATHER_DATE);
+        long dateInMillis = mCursor.getLong(MainActivity.INDEX_CENTZ_DATE);
          /* Get human readable string using our utility method */
-        String dateString = SunshineDateUtils.getFriendlyDateString(mContext, dateInMillis, false);
+        String dateString = CentzDateUtils.getFriendlyDateString(mContext, dateInMillis, false);
 
          /* Display friendly date string */
         forecastAdapterViewHolder.dateView.setText(dateString);
 
         /***********************
-         * Weather Description *
+         * Centz Description *
          ***********************/
-        String description = SunshineWeatherUtils.getStringForWeatherCondition(mContext, weatherId);
-         /* Create the accessibility (a11y) String from the weather description */
+        String description = CentzCentzUtils.getStringForCentzCondition(mContext, centzId);
+         /* Create the accessibility (a11y) String from the centz description */
         String descriptionA11y = mContext.getString(R.string.a11y_forecast, description);
 
          /* Set the text and content description (for accessibility purposes) */
@@ -183,14 +183,14 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
          * High (max) temperature *
          **************************/
          /* Read high temperature from the cursor (in degrees celsius) */
-        double highInCelsius = mCursor.getDouble(MainActivity.INDEX_WEATHER_MAX_TEMP);
+        double highInCelsius = mCursor.getDouble(MainActivity.INDEX_CENTZ_MAX_TEMP);
          /*
-          * If the user's preference for weather is fahrenheit, formatTemperature will convert
+          * If the user's preference for centz is fahrenheit, formatTemperature will convert
           * the temperature. This method will also append either °C or °F to the temperature
           * String.
           */
-        String highString = SunshineWeatherUtils.formatTemperature(mContext, highInCelsius);
-         /* Create the accessibility (a11y) String from the weather description */
+        String highString = CentzCentzUtils.formatTemperature(mContext, highInCelsius);
+         /* Create the accessibility (a11y) String from the centz description */
         String highA11y = mContext.getString(R.string.a11y_high_temp, highString);
 
          /* Set the text and content description (for accessibility purposes) */
@@ -201,13 +201,13 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
          * Low (min) temperature *
          *************************/
          /* Read low temperature from the cursor (in degrees celsius) */
-        double lowInCelsius = mCursor.getDouble(MainActivity.INDEX_WEATHER_MIN_TEMP);
+        double lowInCelsius = mCursor.getDouble(MainActivity.INDEX_CENTZ_MIN_TEMP);
          /*
-          * If the user's preference for weather is fahrenheit, formatTemperature will convert
+          * If the user's preference for centz is fahrenheit, formatTemperature will convert
           * the temperature. This method will also append either °C or °F to the temperature
           * String.
           */
-        String lowString = SunshineWeatherUtils.formatTemperature(mContext, lowInCelsius);
+        String lowString = CentzCentzUtils.formatTemperature(mContext, lowInCelsius);
         String lowA11y = mContext.getString(R.string.a11y_low_temp, lowString);
 
          /* Set the text and content description (for accessibility purposes) */
@@ -230,7 +230,7 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
     /**
      * Returns an integer code related to the type of View we want the ViewHolder to be at a given
      * position. This method is useful when we want to use different layouts for different items
-     * depending on their position. In Sunshine, we take advantage of this method to provide a
+     * depending on their position. In Centz, we take advantage of this method to provide a
      * different layout for the "today" layout. The "today" layout is only shown in portrait mode
      * with the first item in the list.
      *
@@ -247,9 +247,9 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
     }
 
     /**
-     * Swaps the cursor used by the ForecastAdapter for its weather data. This method is called by
+     * Swaps the cursor used by the ForecastAdapter for its centz data. This method is called by
      * MainActivity after a load has finished, as well as when the Loader responsible for loading
-     * the weather data is reset. When this method is called, we assume we have a completely new
+     * the centz data is reset. When this method is called, we assume we have a completely new
      * set of data, so we call notifyDataSetChanged to tell the RecyclerView to update.
      *
      * @param newCursor the new cursor to use as ForecastAdapter's data source
@@ -275,9 +275,9 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
         ForecastAdapterViewHolder(View view) {
             super(view);
 
-            iconView = (ImageView) view.findViewById(R.id.weather_icon);
+            iconView = (ImageView) view.findViewById(R.id.centz_icon);
             dateView = (TextView) view.findViewById(R.id.date);
-            descriptionView = (TextView) view.findViewById(R.id.weather_description);
+            descriptionView = (TextView) view.findViewById(R.id.centz_description);
             highTempView = (TextView) view.findViewById(R.id.high_temperature);
             lowTempView = (TextView) view.findViewById(R.id.low_temperature);
 
@@ -295,7 +295,7 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
-            long dateInMillis = mCursor.getLong(MainActivity.INDEX_WEATHER_DATE);
+            long dateInMillis = mCursor.getLong(MainActivity.INDEX_CENTZ_DATE);
             mClickHandler.onClick(dateInMillis);
         }
     }

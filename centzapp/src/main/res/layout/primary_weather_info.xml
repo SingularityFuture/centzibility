@@ -16,8 +16,8 @@
 -->
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  - This layout displays a given day's primary weather information, such as the date of the      -
-  - weather, an icon and description, and the high and low temperature.                          -
+  - This layout displays a given day's primary centz information, such as the date of the      -
+  - centz, an icon and description, and the high and low temperature.                          -
   -                                                                                              -
   - In order to use Android's data binding capabilities, (to avoid having to type findViewById   -
   - over and over again) we wrap this layout in a <layout></layout> tag.                         -
@@ -58,14 +58,14 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/weather_icon"
+            app:layout_constraintBottom_toTopOf="@+id/centz_icon"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             tools:text="Saturday, September 24"/>
 
-        <!-- Icon indicating weather condition -->
+        <!-- Icon indicating centz condition -->
         <ImageView
-            android:id="@+id/weather_icon"
+            android:id="@+id/centz_icon"
             android:layout_width="96dp"
             android:layout_height="96dp"
             android:adjustViewBounds="true"
@@ -75,18 +75,18 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/art_clouds"/>
 
-        <!-- Text that describes weather condition -->
+        <!-- Text that describes centz condition -->
         <TextView
-            android:id="@+id/weather_description"
+            android:id="@+id/centz_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textColor="@color/secondary_text"
             android:textSize="20sp"
             app:layout_constraintHorizontal_bias="0.52"
-            app:layout_constraintLeft_toLeftOf="@+id/weather_icon"
-            app:layout_constraintRight_toRightOf="@+id/weather_icon"
-            app:layout_constraintTop_toBottomOf="@+id/weather_icon"
+            app:layout_constraintLeft_toLeftOf="@+id/centz_icon"
+            app:layout_constraintRight_toRightOf="@+id/centz_icon"
+            app:layout_constraintTop_toBottomOf="@+id/centz_icon"
             tools:text="Rainy"/>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -105,11 +105,11 @@
             android:fontFamily="sans-serif-light"
             android:textColor="@color/primary_text"
             android:textSize="72sp"
-            app:layout_constraintBottom_toBottomOf="@+id/weather_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/centz_icon"
             app:layout_constraintHorizontal_bias="0.45"
             app:layout_constraintLeft_toLeftOf="@+id/horizontal_middle"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/weather_icon"
+            app:layout_constraintTop_toTopOf="@+id/centz_icon"
             tools:text="19\u00b0"/>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -128,7 +128,7 @@
             android:fontFamily="sans-serif-light"
             android:textColor="@color/secondary_text"
             android:textSize="36sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/weather_description"
+            app:layout_constraintBaseline_toBaselineOf="@+id/centz_description"
             app:layout_constraintLeft_toLeftOf="@+id/high_temperature"
             app:layout_constraintRight_toRightOf="@+id/high_temperature"
             tools:text="10\u00b0"/>

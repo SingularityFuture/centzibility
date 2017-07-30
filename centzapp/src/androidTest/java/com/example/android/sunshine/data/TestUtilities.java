@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.data;
+package com.example.android.centz.data;
 
 import android.content.ContentValues;
 import android.database.ContentObserver;
@@ -22,8 +22,8 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.HandlerThread;
 
-import com.example.android.sunshine.utilities.SunshineDateUtils;
-import com.example.android.sunshine.utils.PollingCheck;
+import com.example.android.centz.utilities.CentzDateUtils;
+import com.example.android.centz.utils.PollingCheck;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -32,14 +32,14 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.example.android.sunshine.data.WeatherContract.WeatherEntry.COLUMN_DATE;
-import static com.example.android.sunshine.data.WeatherContract.WeatherEntry.COLUMN_DEGREES;
-import static com.example.android.sunshine.data.WeatherContract.WeatherEntry.COLUMN_HUMIDITY;
-import static com.example.android.sunshine.data.WeatherContract.WeatherEntry.COLUMN_MAX_TEMP;
-import static com.example.android.sunshine.data.WeatherContract.WeatherEntry.COLUMN_MIN_TEMP;
-import static com.example.android.sunshine.data.WeatherContract.WeatherEntry.COLUMN_PRESSURE;
-import static com.example.android.sunshine.data.WeatherContract.WeatherEntry.COLUMN_WEATHER_ID;
-import static com.example.android.sunshine.data.WeatherContract.WeatherEntry.COLUMN_WIND_SPEED;
+import static com.example.android.centz.data.CentzContract.CentzEntry.COLUMN_DATE;
+import static com.example.android.centz.data.CentzContract.CentzEntry.COLUMN_DEGREES;
+import static com.example.android.centz.data.CentzContract.CentzEntry.COLUMN_HUMIDITY;
+import static com.example.android.centz.data.CentzContract.CentzEntry.COLUMN_MAX_TEMP;
+import static com.example.android.centz.data.CentzContract.CentzEntry.COLUMN_MIN_TEMP;
+import static com.example.android.centz.data.CentzContract.CentzEntry.COLUMN_PRESSURE;
+import static com.example.android.centz.data.CentzContract.CentzEntry.COLUMN_CENTZ_ID;
+import static com.example.android.centz.data.CentzContract.CentzEntry.COLUMN_WIND_SPEED;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
@@ -49,7 +49,7 @@ import static junit.framework.Assert.assertTrue;
  * These are functions and some test data to make it easier to test your database and Content
  * Provider.
  * <p>
- * NOTE: If your WeatherContract class doesn't exactly match ours, THIS WILL NOT WORK as we've
+ * NOTE: If your CentzContract class doesn't exactly match ours, THIS WILL NOT WORK as we've
  * provided and you will need to make changes to this code to use it to pass your tests.
  */
 class TestUtilities {
@@ -114,22 +114,22 @@ class TestUtilities {
      * Used as a convenience method to return a singleton instance of ContentValues to populate
      * our database or insert using our ContentProvider.
      *
-     * @return ContentValues that can be inserted into our ContentProvider or weather.db
+     * @return ContentValues that can be inserted into our ContentProvider or centz.db
      */
-    static ContentValues createTestWeatherContentValues() {
+    static ContentValues createTestCentzContentValues() {
 
-        ContentValues testWeatherValues = new ContentValues();
+        ContentValues testCentzValues = new ContentValues();
 
-        testWeatherValues.put(COLUMN_DATE, DATE_NORMALIZED);
-        testWeatherValues.put(COLUMN_DEGREES, 1.1);
-        testWeatherValues.put(COLUMN_HUMIDITY, 1.2);
-        testWeatherValues.put(COLUMN_PRESSURE, 1.3);
-        testWeatherValues.put(COLUMN_MAX_TEMP, 75);
-        testWeatherValues.put(COLUMN_MIN_TEMP, 65);
-        testWeatherValues.put(COLUMN_WIND_SPEED, 5.5);
-        testWeatherValues.put(COLUMN_WEATHER_ID, 321);
+        testCentzValues.put(COLUMN_DATE, DATE_NORMALIZED);
+        testCentzValues.put(COLUMN_DEGREES, 1.1);
+        testCentzValues.put(COLUMN_HUMIDITY, 1.2);
+        testCentzValues.put(COLUMN_PRESSURE, 1.3);
+        testCentzValues.put(COLUMN_MAX_TEMP, 75);
+        testCentzValues.put(COLUMN_MIN_TEMP, 65);
+        testCentzValues.put(COLUMN_WIND_SPEED, 5.5);
+        testCentzValues.put(COLUMN_CENTZ_ID, 321);
 
-        return testWeatherValues;
+        return testCentzValues;
     }
 
     /**
@@ -142,34 +142,34 @@ class TestUtilities {
      * {@link #validateThenCloseCursor(String, Cursor, ContentValues)} for more information on how
      * this verification is performed.
      *
-     * @return Array of ContentValues that can be inserted into our ContentProvider or weather.db
+     * @return Array of ContentValues that can be inserted into our ContentProvider or centz.db
      */
-    static ContentValues[] createBulkInsertTestWeatherValues() {
+    static ContentValues[] createBulkInsertTestCentzValues() {
 
-        ContentValues[] bulkTestWeatherValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
+        ContentValues[] bulkTestCentzValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
 
         long testDate = TestUtilities.DATE_NORMALIZED;
-        long normalizedTestDate = SunshineDateUtils.normalizeDate(testDate);
+        long normalizedTestDate = CentzDateUtils.normalizeDate(testDate);
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
 
-            normalizedTestDate += SunshineDateUtils.DAY_IN_MILLIS;
+            normalizedTestDate += CentzDateUtils.DAY_IN_MILLIS;
 
-            ContentValues weatherValues = new ContentValues();
+            ContentValues centzValues = new ContentValues();
 
-            weatherValues.put(COLUMN_DATE, normalizedTestDate);
-            weatherValues.put(COLUMN_DEGREES, 1.1);
-            weatherValues.put(COLUMN_HUMIDITY, 1.2 + 0.01 * (float) i);
-            weatherValues.put(COLUMN_PRESSURE, 1.3 - 0.01 * (float) i);
-            weatherValues.put(COLUMN_MAX_TEMP, 75 + i);
-            weatherValues.put(COLUMN_MIN_TEMP, 65 - i);
-            weatherValues.put(COLUMN_WIND_SPEED, 5.5 + 0.2 * (float) i);
-            weatherValues.put(COLUMN_WEATHER_ID, 321);
+            centzValues.put(COLUMN_DATE, normalizedTestDate);
+            centzValues.put(COLUMN_DEGREES, 1.1);
+            centzValues.put(COLUMN_HUMIDITY, 1.2 + 0.01 * (float) i);
+            centzValues.put(COLUMN_PRESSURE, 1.3 - 0.01 * (float) i);
+            centzValues.put(COLUMN_MAX_TEMP, 75 + i);
+            centzValues.put(COLUMN_MIN_TEMP, 65 - i);
+            centzValues.put(COLUMN_WIND_SPEED, 5.5 + 0.2 * (float) i);
+            centzValues.put(COLUMN_CENTZ_ID, 321);
 
-            bulkTestWeatherValues[i] = weatherValues;
+            bulkTestCentzValues[i] = centzValues;
         }
 
-        return bulkTestWeatherValues;
+        return bulkTestCentzValues;
     }
 
 
@@ -178,7 +178,7 @@ class TestUtilities {
     }
 
     /**
-     * Students: The functions we provide inside of TestWeatherProvider use TestContentObserver to test
+     * Students: The functions we provide inside of TestCentzProvider use TestContentObserver to test
      * the ContentObserver callbacks using the PollingCheck class from the Android Compatibility
      * Test Suite tests.
      * <p>

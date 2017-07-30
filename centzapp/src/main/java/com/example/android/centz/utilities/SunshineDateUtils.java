@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.utilities;
+package com.example.android.centz.utilities;
 
 import android.content.Context;
 import android.text.format.DateUtils;
 
-import com.example.android.sunshine.R;
+import com.example.android.centz.R;
 
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Class for handling date conversions that are useful for Sunshine.
+ * Class for handling date conversions that are useful for Centz.
  */
-public final class SunshineDateUtils {
+public final class CentzDateUtils {
 
     /* Milliseconds in a day */
     public static final long DAY_IN_MILLIS = TimeUnit.DAYS.toMillis(1);
@@ -112,7 +112,7 @@ public final class SunshineDateUtils {
     /**
      * Normalizes a date (in milliseconds).
      *
-     * Normalize, in our usage within Sunshine means to convert a given date in milliseconds to
+     * Normalize, in our usage within Centz means to convert a given date in milliseconds to
      * the very beginning of the date in UTC time.
      *
      *   For example, given the time representing
@@ -142,7 +142,7 @@ public final class SunshineDateUtils {
     }
 
     /**
-     * In order to ensure consistent inserts into WeatherProvider, we check that dates have been
+     * In order to ensure consistent inserts into CentzProvider, we check that dates have been
      * normalized before they are inserted. If they are not normalized, we don't want to accept
      * them, and leave it up to the caller to throw an IllegalArgumentException.
      *

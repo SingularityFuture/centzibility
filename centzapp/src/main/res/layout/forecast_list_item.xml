@@ -29,7 +29,7 @@
     android:paddingTop="@dimen/list_item_padding_vertical">
 
     <ImageView
-        android:id="@+id/weather_icon"
+        android:id="@+id/centz_icon"
         android:layout_width="@dimen/list_icon"
         android:layout_height="@dimen/list_icon"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
@@ -45,11 +45,11 @@
         android:layout_marginStart="@dimen/list_item_date_start_margin"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintLeft_toRightOf="@+id/weather_icon"
+        app:layout_constraintLeft_toRightOf="@+id/centz_icon"
         tools:text="Today, April 03"/>
 
     <TextView
-        android:id="@+id/weather_description"
+        android:id="@+id/centz_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"

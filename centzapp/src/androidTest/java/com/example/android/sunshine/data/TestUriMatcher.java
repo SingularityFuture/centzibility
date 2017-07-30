@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.data;
+package com.example.android.centz.data;
 
 import android.content.UriMatcher;
 import android.net.Uri;
@@ -26,23 +26,23 @@ import org.junit.runner.RunWith;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import static com.example.android.sunshine.data.TestUtilities.getStaticIntegerField;
-import static com.example.android.sunshine.data.TestUtilities.studentReadableNoSuchField;
+import static com.example.android.centz.data.TestUtilities.getStaticIntegerField;
+import static com.example.android.centz.data.TestUtilities.studentReadableNoSuchField;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class TestUriMatcher {
 
-    private static final Uri TEST_WEATHER_DIR = WeatherContract.WeatherEntry.CONTENT_URI;
-    private static final Uri TEST_WEATHER_WITH_DATE_DIR = WeatherContract.WeatherEntry
-            .buildWeatherUriWithDate(TestUtilities.DATE_NORMALIZED);
+    private static final Uri TEST_CENTZ_DIR = CentzContract.CentzEntry.CONTENT_URI;
+    private static final Uri TEST_CENTZ_WITH_DATE_DIR = CentzContract.CentzEntry
+            .buildCentzUriWithDate(TestUtilities.DATE_NORMALIZED);
 
-    private static final String weatherCodeVariableName = "CODE_WEATHER";
-    private static int REFLECTED_WEATHER_CODE;
+    private static final String centzCodeVariableName = "CODE_CENTZ";
+    private static int REFLECTED_CENTZ_CODE;
 
-    private static final String weatherCodeWithDateVariableName = "CODE_WEATHER_WITH_DATE";
-    private static int REFLECTED_WEATHER_WITH_DATE_CODE;
+    private static final String centzCodeWithDateVariableName = "CODE_CENTZ_WITH_DATE";
+    private static int REFLECTED_CENTZ_WITH_DATE_CODE;
 
     private UriMatcher testMatcher;
 
@@ -50,16 +50,16 @@ public class TestUriMatcher {
     public void before() {
         try {
 
-            Method buildUriMatcher = WeatherProvider.class.getDeclaredMethod("buildUriMatcher");
-            testMatcher = (UriMatcher) buildUriMatcher.invoke(WeatherProvider.class);
+            Method buildUriMatcher = CentzProvider.class.getDeclaredMethod("buildUriMatcher");
+            testMatcher = (UriMatcher) buildUriMatcher.invoke(CentzProvider.class);
 
-            REFLECTED_WEATHER_CODE = getStaticIntegerField(
-                    WeatherProvider.class,
-                    weatherCodeVariableName);
+            REFLECTED_CENTZ_CODE = getStaticIntegerField(
+                    CentzProvider.class,
+                    centzCodeVariableName);
 
-            REFLECTED_WEATHER_WITH_DATE_CODE = getStaticIntegerField(
-                    WeatherProvider.class,
-                    weatherCodeWithDateVariableName);
+            REFLECTED_CENTZ_WITH_DATE_CODE = getStaticIntegerField(
+                    CentzProvider.class,
+                    centzCodeWithDateVariableName);
 
         } catch (NoSuchFieldException e) {
             fail(studentReadableNoSuchField(e));
@@ -68,7 +68,7 @@ public class TestUriMatcher {
         } catch (NoSuchMethodException e) {
             String noBuildUriMatcherMethodFound =
                     "It doesn't appear that you have created a method called buildUriMatcher in " +
-                            "the WeatherProvider class.";
+                            "the CentzProvider class.";
             fail(noBuildUriMatcherMethodFound);
         } catch (InvocationTargetException e) {
             fail(e.getMessage());
@@ -83,23 +83,23 @@ public class TestUriMatcher {
     @Test
     public void testUriMatcher() {
 
-        /* Test that the code returned from our matcher matches the expected weather code */
-        String weatherUriDoesNotMatch = "Error: The CODE_WEATHER URI was matched incorrectly.";
-        int actualWeatherCode = testMatcher.match(TEST_WEATHER_DIR);
-        int expectedWeatherCode = REFLECTED_WEATHER_CODE;
-        assertEquals(weatherUriDoesNotMatch,
-                expectedWeatherCode,
-                actualWeatherCode);
+        /* Test that the code returned from our matcher matches the expected centz code */
+        String centzUriDoesNotMatch = "Error: The CODE_CENTZ URI was matched incorrectly.";
+        int actualCentzCode = testMatcher.match(TEST_CENTZ_DIR);
+        int expectedCentzCode = REFLECTED_CENTZ_CODE;
+        assertEquals(centzUriDoesNotMatch,
+                expectedCentzCode,
+                actualCentzCode);
 
         /*
-         * Test that the code returned from our matcher matches the expected weather with date code
+         * Test that the code returned from our matcher matches the expected centz with date code
          */
-        String weatherWithDateUriCodeDoesNotMatch =
-                "Error: The CODE_WEATHER WITH DATE URI was matched incorrectly.";
-        int actualWeatherWithDateCode = testMatcher.match(TEST_WEATHER_WITH_DATE_DIR);
-        int expectedWeatherWithDateCode = REFLECTED_WEATHER_WITH_DATE_CODE;
-        assertEquals(weatherWithDateUriCodeDoesNotMatch,
-                expectedWeatherWithDateCode,
-                actualWeatherWithDateCode);
+        String centzWithDateUriCodeDoesNotMatch =
+                "Error: The CODE_CENTZ WITH DATE URI was matched incorrectly.";
+        int actualCentzWithDateCode = testMatcher.match(TEST_CENTZ_WITH_DATE_DIR);
+        int expectedCentzWithDateCode = REFLECTED_CENTZ_WITH_DATE_CODE;
+        assertEquals(centzWithDateUriCodeDoesNotMatch,
+                expectedCentzWithDateCode,
+                actualCentzWithDateCode);
     }
 }

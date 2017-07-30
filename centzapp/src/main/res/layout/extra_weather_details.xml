@@ -51,7 +51,7 @@
         <!-- Humidity measurement -->
         <TextView
             android:id="@+id/humidity"
-            style="@style/ExtraWeatherMeasurement"
+            style="@style/ExtraCentzMeasurement"
             app:layout_constraintBottom_toBottomOf="@+id/humidity_label"
             app:layout_constraintLeft_toLeftOf="@+id/horizontal_middle"
             tools:text="38%"/>
@@ -68,7 +68,7 @@
         <!-- Pressure measurement -->
         <TextView
             android:id="@+id/pressure"
-            style="@style/ExtraWeatherMeasurement"
+            style="@style/ExtraCentzMeasurement"
             app:layout_constraintBottom_toBottomOf="@+id/pressure_label"
             app:layout_constraintLeft_toLeftOf="@+id/horizontal_middle"
             tools:text="995 hPa"/>
@@ -86,7 +86,7 @@
         <!-- Wind measurement -->
         <TextView
             android:id="@+id/wind_measurement"
-            style="@style/ExtraWeatherMeasurement"
+            style="@style/ExtraCentzMeasurement"
             app:layout_constraintBottom_toBottomOf="@+id/wind_label"
             app:layout_constraintLeft_toLeftOf="@+id/horizontal_middle"
             tools:text="4km/h NW"/>

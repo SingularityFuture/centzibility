@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine;
+package com.example.android.centz;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -32,9 +32,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.example.android.sunshine.data.SunshinePreferences;
-import com.example.android.sunshine.data.WeatherContract;
-import com.example.android.sunshine.sync.SunshineSyncUtils;
+import com.example.android.centz.data.CentzPreferences;
+import com.example.android.centz.data.CentzContract;
+import com.example.android.centz.sync.CentzSyncUtils;
 
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>,
@@ -44,13 +44,13 @@ public class MainActivity extends AppCompatActivity implements
 
     /*
      * The columns of data that we are interested in displaying within our MainActivity's list of
-     * weather data.
+     * centz data.
      */
     public static final String[] MAIN_FORECAST_PROJECTION = {
-            WeatherContract.WeatherEntry.COLUMN_DATE,
-            WeatherContract.WeatherEntry.COLUMN_MAX_TEMP,
-            WeatherContract.WeatherEntry.COLUMN_MIN_TEMP,
-            WeatherContract.WeatherEntry.COLUMN_WEATHER_ID,
+            CentzContract.CentzEntry.COLUMN_DATE,
+            CentzContract.CentzEntry.COLUMN_MAX_TEMP,
+            CentzContract.CentzEntry.COLUMN_MIN_TEMP,
+            CentzContract.CentzEntry.COLUMN_CENTZ_ID,
     };
 
     /*
@@ -58,14 +58,14 @@ public class MainActivity extends AppCompatActivity implements
      * access the data from our query. If the order of the Strings above changes, these indices
      * must be adjusted to match the order of the Strings.
      */
-    public static final int INDEX_WEATHER_DATE = 0;
-    public static final int INDEX_WEATHER_MAX_TEMP = 1;
-    public static final int INDEX_WEATHER_MIN_TEMP = 2;
-    public static final int INDEX_WEATHER_CONDITION_ID = 3;
+    public static final int INDEX_CENTZ_DATE = 0;
+    public static final int INDEX_CENTZ_MAX_TEMP = 1;
+    public static final int INDEX_CENTZ_MIN_TEMP = 2;
+    public static final int INDEX_CENTZ_CONDITION_ID = 3;
 
 
     /*
-     * This ID will be used to identify the Loader responsible for loading our weather forecast. In
+     * This ID will be used to identify the Loader responsible for loading our centz forecast. In
      * some cases, one Activity can deal with many Loaders. However, in our case, there is only one.
      * We will still use this ID to initialize the loader and create the loader for best practice.
      * Please note that 44 was chosen arbitrarily. You can use whatever number you like, so long as
@@ -128,8 +128,8 @@ public class MainActivity extends AppCompatActivity implements
         mRecyclerView.setHasFixedSize(true);
 
         /*
-         * The ForecastAdapter is responsible for linking our weather data with the Views that
-         * will end up displaying our weather data.
+         * The ForecastAdapter is responsible for linking our centz data with the Views that
+         * will end up displaying our centz data.
          *
          * Although passing in "this" twice may seem strange, it is actually a sign of separation
          * of concerns, which is best programming practice. The ForecastAdapter requires an
@@ -152,8 +152,8 @@ public class MainActivity extends AppCompatActivity implements
          */
         getSupportLoaderManager().initLoader(ID_FORECAST_LOADER, null, this);
 
-        SunshineSyncUtils.initialize(this);
-        SunshineSyncUtils.startImmediateSync(this);
+        CentzSyncUtils.initialize(this);
+        CentzSyncUtils.startImmediateSync(this);
 
     }
 
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements
      * open the Common Intents page
      */
     private void openPreferredLocationInMap() {
-        double[] coords = SunshinePreferences.getLocationCoordinates(this);
+        double[] coords = CentzPreferences.getLocationCoordinates(this);
         String posLat = Double.toString(coords[0]);
         String posLong = Double.toString(coords[1]);
         Uri geoLocation = Uri.parse("geo:" + posLat + "," + posLong);
@@ -199,16 +199,16 @@ public class MainActivity extends AppCompatActivity implements
         switch (loaderId) {
 
             case ID_FORECAST_LOADER:
-                /* URI for all rows of weather data in our weather table */
-                Uri forecastQueryUri = WeatherContract.WeatherEntry.CONTENT_URI;
+                /* URI for all rows of centz data in our centz table */
+                Uri forecastQueryUri = CentzContract.CentzEntry.CONTENT_URI;
                 /* Sort order: Ascending by date */
-                String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
+                String sortOrder = CentzContract.CentzEntry.COLUMN_DATE + " ASC";
                 /*
                  * A SELECTION in SQL declares which rows you'd like to return. In our case, we
-                 * want all weather data from today onwards that is stored in our weather table.
-                 * We created a handy method to do that in our WeatherEntry class.
+                 * want all centz data from today onwards that is stored in our centz table.
+                 * We created a handy method to do that in our CentzEntry class.
                  */
-                String selection = WeatherContract.WeatherEntry.getSqlSelectForTodayOnwards();
+                String selection = CentzContract.CentzEntry.getSqlSelectForTodayOnwards();
 
                 return new CursorLoader(this,
                         forecastQueryUri,
@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements
         mForecastAdapter.swapCursor(data);
         if (mPosition == RecyclerView.NO_POSITION) mPosition = 0;
         mRecyclerView.smoothScrollToPosition(mPosition);
-        if (data.getCount() != 0) showWeatherDataView();
+        if (data.getCount() != 0) showCentzDataView();
     }
 
     /**
@@ -261,40 +261,40 @@ public class MainActivity extends AppCompatActivity implements
     /**
      * This method is for responding to clicks from our list.
      *
-     * @param date Normalized UTC time that represents the local date of the weather in GMT time.
-     * @see WeatherContract.WeatherEntry#COLUMN_DATE
+     * @param date Normalized UTC time that represents the local date of the centz in GMT time.
+     * @see CentzContract.CentzEntry#COLUMN_DATE
      */
     @Override
     public void onClick(long date) {
-        Intent weatherDetailIntent = new Intent(MainActivity.this, DetailActivity.class);
-        Uri uriForDateClicked = WeatherContract.WeatherEntry.buildWeatherUriWithDate(date);
-        weatherDetailIntent.setData(uriForDateClicked);
-        startActivity(weatherDetailIntent);
+        Intent centzDetailIntent = new Intent(MainActivity.this, DetailActivity.class);
+        Uri uriForDateClicked = CentzContract.CentzEntry.buildCentzUriWithDate(date);
+        centzDetailIntent.setData(uriForDateClicked);
+        startActivity(centzDetailIntent);
     }
 
     /**
-     * This method will make the View for the weather data visible and hide the error message and
+     * This method will make the View for the centz data visible and hide the error message and
      * loading indicator.
      * <p>
      * Since it is okay to redundantly set the visibility of a View, we don't need to check whether
      * each view is currently visible or invisible.
      */
-    private void showWeatherDataView() {
+    private void showCentzDataView() {
         /* First, hide the loading indicator */
         mLoadingIndicator.setVisibility(View.INVISIBLE);
-        /* Finally, make sure the weather data is visible */
+        /* Finally, make sure the centz data is visible */
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     /**
-     * This method will make the loading indicator visible and hide the weather View and error
+     * This method will make the loading indicator visible and hide the centz View and error
      * message.
      * <p>
      * Since it is okay to redundantly set the visibility of a View, we don't need to check whether
      * each view is currently visible or invisible.
      */
     private void showLoading() {
-        /* Then, hide the weather data */
+        /* Then, hide the centz data */
         mRecyclerView.setVisibility(View.INVISIBLE);
         /* Finally, show the loading indicator */
         mLoadingIndicator.setVisibility(View.VISIBLE);
