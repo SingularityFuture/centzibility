@@ -17,9 +17,9 @@ android {
             minifyEnabled false
         }
     }
-    buildTypes.each {
+/*    buildTypes.each {
         it.buildConfigField 'String', 'COINBASE_API_KEY', Coinbase_Key
-    }
+    }*/
 
     dataBinding.enabled = true
 }
