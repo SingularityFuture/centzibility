@@ -60,7 +60,7 @@
     <!-- Title of the SettingsActivity -->
     <string name="title_activity_settings">Settings</string>
 
-    <string name="content_authority">com.example.android.centz</string>
+    <string name="content_authority">com.singularityfuture.centz</string>
 
 
     <!-- - - - - - - - - - - - - - - -

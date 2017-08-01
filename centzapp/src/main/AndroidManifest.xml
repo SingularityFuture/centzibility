@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.android.centz">
+    package="com.singularityfuture.centz">
 
     <!-- This permission is necessary in order for Centz to perform network access. -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -30,7 +30,7 @@
 
         <!-- The manifest entry for our MainActivity. Each Activity requires a manifest entry -->
         <activity
-            android:name=".MainActivity"
+            android:name="com.singularityfuture.centz.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.Forecast">
@@ -43,32 +43,32 @@
 
         <!-- The manifest entry for our DetailActivity. Each Activity requires a manifest entry -->
         <activity
-            android:name=".DetailActivity"
+            android:name="com.singularityfuture.centz.DetailActivity"
             android:label="@string/title_activity_detail"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="com.singularityfuture.centz.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="com.singularityfuture.centz.MainActivity" />
         </activity>
 
         <!-- The manifest entry for our SettingsActivity. Each Activity requires a manifest entry -->
-        <activity android:name=".SettingsActivity" />
+        <activity android:name="com.singularityfuture.centz.SettingsActivity" />
 
         <!-- Our ContentProvider -->
         <provider
-            android:name=".data.CentzProvider"
+            android:name="com.singularityfuture.centz.data.CentzProvider"
             android:authorities="@string/content_authority"
             android:exported="false" />
 
         <!-- This is required for immediate syncs -->
         <service
-            android:name=".sync.CentzSyncIntentService"
+            android:name="com.singularityfuture.centz.sync.CentzSyncIntentService"
             android:exported="false" />
 
         <!-- This is the Service declaration used in conjunction with FirebaseJobDispatcher -->
         <service
-            android:name=".sync.CentzFirebaseJobService"
+            android:name="com.singularityfuture.centz.sync.CentzFirebaseJobService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
