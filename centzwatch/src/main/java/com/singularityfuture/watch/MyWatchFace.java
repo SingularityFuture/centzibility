@@ -139,7 +139,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
         private int max_temp;
         private int min_temp;
         private int centz_id;
-        private int centz_icon= R.drawable.ic_clear; // Set default to clear.
+        private int centz_icon= com.singularityfuture.watch.R.drawable.ic_clear; // Set default to clear.
 
         @Override
         public void onConnected(@Nullable Bundle bundle) {
