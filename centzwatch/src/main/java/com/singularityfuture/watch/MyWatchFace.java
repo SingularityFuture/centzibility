@@ -316,38 +316,38 @@ public class MyWatchFace extends CanvasWatchFaceService {
          * Based on centz code data for Open Centz Map.
          */
         if (centzId >= 200 && centzId <= 232) {
-            return com.example.centzwatch.R.drawable.ic_storm;
+            return com.singularityfuture.watch.R.drawable.ic_storm;
         } else if (centzId >= 300 && centzId <= 321) {
-            return com.example.centzwatch.R.drawable.ic_light_rain;
+            return com.singularityfuture.watch.R.drawable.ic_light_rain;
         } else if (centzId >= 500 && centzId <= 504) {
-            int temp=com.example.centzwatch.R.drawable.ic_rain;
-            return com.example.centzwatch.R.drawable.ic_rain;
+            int temp=com.singularityfuture.watch.R.drawable.ic_rain;
+            return com.singularityfuture.watch.R.drawable.ic_rain;
         } else if (centzId == 511) {
-            return com.example.centzwatch.R.drawable.ic_snow;
+            return com.singularityfuture.watch.R.drawable.ic_snow;
         } else if (centzId >= 520 && centzId <= 531) {
-            return com.example.centzwatch.R.drawable.ic_rain;
+            return com.singularityfuture.watch.R.drawable.ic_rain;
         } else if (centzId >= 600 && centzId <= 622) {
-            return com.example.centzwatch.R.drawable.ic_snow;
+            return com.singularityfuture.watch.R.drawable.ic_snow;
         } else if (centzId >= 701 && centzId <= 761) {
-            return com.example.centzwatch.R.drawable.ic_fog;
+            return com.singularityfuture.watch.R.drawable.ic_fog;
         } else if (centzId == 761 || centzId == 771 || centzId == 781) {
-            return com.example.centzwatch.R.drawable.ic_storm;
+            return com.singularityfuture.watch.R.drawable.ic_storm;
         } else if (centzId == 800) {
-            return com.example.centzwatch.R.drawable.ic_clear;
+            return com.singularityfuture.watch.R.drawable.ic_clear;
         } else if (centzId == 801) {
-            return com.example.centzwatch.R.drawable.ic_light_clouds;
+            return com.singularityfuture.watch.R.drawable.ic_light_clouds;
         } else if (centzId >= 802 && centzId <= 804) {
-            return com.example.centzwatch.R.drawable.ic_cloudy;
+            return com.singularityfuture.watch.R.drawable.ic_cloudy;
         } else if (centzId >= 900 && centzId <= 906) {
-            return com.example.centzwatch.R.drawable.ic_storm;
+            return com.singularityfuture.watch.R.drawable.ic_storm;
         } else if (centzId >= 958 && centzId <= 962) {
-            return com.example.centzwatch.R.drawable.ic_storm;
+            return com.singularityfuture.watch.R.drawable.ic_storm;
         } else if (centzId >= 951 && centzId <= 957) {
-            return com.example.centzwatch.R.drawable.ic_clear;
+            return com.singularityfuture.watch.R.drawable.ic_clear;
         }
         else {
             Log.e(TAG, "Unknown Centz: " + centzId);
-            return com.example.centzwatch.R.drawable.ic_storm;
+            return com.singularityfuture.watch.R.drawable.ic_storm;
         }
     }
 }

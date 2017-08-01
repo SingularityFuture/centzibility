@@ -26,9 +26,9 @@ import com.singularityfuture.centz.data.CentzPreferences;
  * from kph to mph, and from degrees to NSEW.  It also contains the mapping of centz condition
  * codes in OpenCentzMap to strings.  These strings are contained
  */
-public final class CentzCentzUtils {
+public final class CentzUtils {
 
-    private static final String LOG_TAG = CentzCentzUtils.class.getSimpleName();
+    private static final String LOG_TAG = CentzUtils.class.getSimpleName();
 
     /**
      * This method will convert a temperature from Celsius to Fahrenheit.
